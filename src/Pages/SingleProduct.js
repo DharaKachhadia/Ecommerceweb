@@ -3,33 +3,22 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useProductContext } from '../context/productcontex';
 
-
-const API = "https://api.pujakaitem.com/api/products";
+const API = 'https://api.pujakaitem.com/api/products';
 
 const SingleProduct = () => {
-  const { getSingleProduct, singleProduct } = useProductContext();
-  console.log('__________________________________________________', singleProduct)
+  const { getSingleProduct, singleProduct } = useProductContext;
 
+  console.log(
+    '|||||||||||||||||||||||||||||||||||||||||||||||',
+    singleProduct
+  );
   const { id } = useParams();
-
-  const {
-    id: alias,
-    name,
-    company,
-    price,
-    description,
-    category,
-    stock,
-    stars,
-    reviews,
-  } = singleProduct;
-
   useEffect(() => {
     getSingleProduct(`${API}?id=${id}`);
   }, []);
-
-  return <h1>single page {name} </h1>;
+  return <Wrapper>SingleProduct</Wrapper>;
 };
+
 const Wrapper = styled.section`
   .container {
     padding: 9rem 0;

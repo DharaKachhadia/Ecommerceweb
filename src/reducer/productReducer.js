@@ -1,62 +1,55 @@
 const ProductReducer = (state, action) => {
-  // if (action.type === "SET_LOADING") {
-  //   return {
-  //     ...state,
-  //     isLoading: true,
-  //   };
-  // }
+  //   if (actions.type === 'SET_LOADING') {
+  //     return {
+  //       ...state,
+  //       isLoading: true,
+  //     };
+  //   }
+  //   if (actions.type === 'MY_API_DATA') {
+  //     return {
+  //       ...state,
+  //       isLoading: false,
+  //       isError: true,
 
-  // if (action.type === "API_ERROR") {
-  //   return {
-  //     ...state,
-  //     isLoading: false,
-  //     isError: true,
-  //   };
-  // }
+  //     };
+  //   }
+  //   if (actions.type === 'API_ERROR') {
+  //     return {
+  //       ...state,
+  //       isError: true,
+  //     };
+  //   }
+  //   return state;
+  // };
 
   switch (action.type) {
-    case "SET_LOADING":
+    case 'SET_LOADING':
       return {
         ...state,
         isLoading: true,
       };
-
-    case "SET_API_DATA":
-      const featureData = action.payload.filter((curElem) => {
+    case 'SET_API_DATA':
+      const featureData = action.payload.filter(curElem => {
         return curElem.featured === true;
       });
-
       return {
         ...state,
         isLoading: false,
-        products: action.payload,
+        isError: true,
+        product: action.payload,
         featureProducts: featureData,
       };
 
-    case "API_ERROR":
+    case 'SET_SINGLE_PRODUCT':
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
 
-    case "SET_SINGLE_LOADING":
+    case 'API_ERROR':
       return {
         ...state,
-        isSingleLoading: true,
-      };
-
-    case "SET_SINGLE_PRODUCT":
-      return {
-        ...state,
-        isSingleLoading: false,
-        singleProduct: action.payload,
-      };
-
-    case "SET_SINGLE_ERROR":
-      return {
-        ...state,
-        isSingleLoading: false,
         isError: true,
       };
 
@@ -64,5 +57,4 @@ const ProductReducer = (state, action) => {
       return state;
   }
 };
-
 export default ProductReducer;
