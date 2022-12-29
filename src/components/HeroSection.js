@@ -21,7 +21,8 @@ const HeroSection = ({ myData }) => {
             </NavLink>
           </div>
           {/* our homepage image  */}
-          <div className="hero-section-image">
+          <div 
+          className="hero-section-image">
             <figure>
               <img
                 src="https://www.pennmedicine.org/-/media/images/miscellaneous/families/family_grocery_shopping.ashx"
