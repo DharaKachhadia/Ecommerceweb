@@ -1,24 +1,35 @@
 import styled from 'styled-components';
-import {useParams} from 'react-router-dom';
-import {useEffect} from 'react';
-import {useProductContext} from '../context/productcontex';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useProductContext } from '../context/productcontex';
 
-const API = 'https://api.pujakaitem.com/api/products';
+
+const API = "https://api.pujakaitem.com/api/products";
 
 const SingleProduct = () => {
-  const {getSingleProduct, singleProduct} = useProductContext;
+  const { getSingleProduct, singleProduct } = useProductContext();
+  console.log('__________________________________________________', singleProduct)
 
-  console.log (
-    '|||||||||||||||||||||||||||||||||||||||||||||||',
-    singleProduct
-  );
-  const {id} = useParams ();
-  useEffect (() => {
-    getSingleProduct (`${API}?id=${id}`);
+  const { id } = useParams();
+
+  const {
+    id: alias,
+    name,
+    company,
+    price,
+    description,
+    category,
+    stock,
+    stars,
+    reviews,
+  } = singleProduct;
+
+  useEffect(() => {
+    getSingleProduct(`${API}?id=${id}`);
   }, []);
-  return <Wrapper>SingleProduct</Wrapper>;
-};
 
+  return <h1>single page {name} </h1>;
+};
 const Wrapper = styled.section`
   .container {
     padding: 9rem 0;
@@ -59,7 +70,7 @@ const Wrapper = styled.section`
       font-weight: bold;
     }
     .product-data-real-price {
-      color: ${({theme}) => theme.colors.btn};
+      color: ${({ theme }) => theme.colors.btn};
     }
     .product-data-info {
       display: flex;
@@ -87,7 +98,7 @@ const Wrapper = styled.section`
     align-items: center;
   }
 
-  @media (max-width: ${({theme}) => theme.media.mobile}) {
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
     padding: 0 2.4rem;
   }
 `;
