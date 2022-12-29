@@ -9,6 +9,7 @@ const initialState = {
   isError: false,
   products: [],
   featureProducts: [],
+  singleProduct: {},
 };
 
 const AppProvider = ({children}) => {
@@ -24,11 +25,27 @@ const AppProvider = ({children}) => {
       dispatch ({type: 'API_ERROR'});
     }
   };
+
+  // my second api data call for single data
+
+  const getSingleProduct = async url => {
+    dispatch ({type: 'SET_LOADING'});
+
+    try {
+      const res = await axios.get (url);
+      const singleProduct = await res.data;
+      dispatch ({type: 'SET_SINGLE_PRODUCT', payload: singleProduct});
+      console.log ('===============================', singleProduct);
+    } catch (error) {
+      dispatch ({type: 'API_ERROR'});
+    }
+  };
+
   useEffect (() => {
     getProducts (API);
   }, []);
   return (
-    <AppContext.Provider value={{...state}}>
+    <AppContext.Provider value={{...state, getSingleProduct}}>
       {children}
     </AppContext.Provider>
   );

@@ -40,6 +40,13 @@ const ProductReducer = (state, action) => {
         featureProducts: featureData,
       };
 
+    case 'SET_SINGLE_PRODUCT':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+
     case 'API_ERROR':
       return {
         ...state,
