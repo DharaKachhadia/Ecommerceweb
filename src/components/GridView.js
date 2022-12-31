@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import Product from '../components/Product';
-const GridView = ({products}) => {
+import React from "react";
+import styled from "styled-components";
+import Product from "./Product";
+
+const GridView = ({ products }) => {
   return (
     <Wrapper className="section">
-      <div className="container grid grid- three-column">
-        {products.map ((cur, i) => {
-          return <Product key={cur.id} {...cur} />;
+      <div className="container grid grid-three-column">
+        {products.map((curElem) => {
+          return <Product key={curElem.id} {...curElem} />;
         })}
-
       </div>
     </Wrapper>
   );
@@ -55,7 +55,7 @@ const Wrapper = styled.section`
     }
   }
   .card {
-    background-color: ${({theme}) => theme.colors.bg};
+    background-color: ${({ theme }) => theme.colors.bg};
     border-radius: 1rem;
     .card-data {
       padding: 0 1rem;
@@ -67,10 +67,10 @@ const Wrapper = styled.section`
       align-items: center;
     }
     .card-data--price {
-      color: ${({theme}) => theme.colors.helper};
+      color: ${({ theme }) => theme.colors.helper};
     }
     h3 {
-      color: ${({theme}) => theme.colors.text};
+      color: ${({ theme }) => theme.colors.text};
       text-transform: capitalize;
     }
     .btn {
