@@ -10,9 +10,24 @@ const filterReducer = (state, action) => {
     case 'SET_GRID_VIEW':
       return {
         ...state,
-        grid_view: true,
+        grid_view: true
       };
 
+    case 'SET_LIST_VIEW':
+      return {
+        ...state,
+        grid_view: false
+      };
+
+    case 'GET_SORT_VALUE':
+      let userSortValue = document.getElementById('sort');
+      let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
+      console.log("______________sort__________", sort_value)
+      return {
+        ...state,
+        sorting_value: sort_value,
+
+      };
     default:
       return state;
   }

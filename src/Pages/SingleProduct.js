@@ -1,13 +1,13 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import {useParams} from 'react-router-dom';
-import {useProductContext} from '../context/productcontex';
+import { useParams } from 'react-router-dom';
+import { useProductContext } from '../context/productcontex';
 import PageNavigation from '../components/PageNavigation';
 import MyImage from '../components/MyImage';
-import {Container} from '../styles/Container';
+import { Container } from '../styles/Container';
 import FormatPrice from '../Helpers/FormatPrice';
-import {MdSecurity} from 'react-icons/md';
-import {TbTruckDelivery, TbReplace} from 'react-icons/tb';
+import { MdSecurity } from 'react-icons/md';
+import { TbTruckDelivery, TbReplace } from 'react-icons/tb';
 import Stars from '../components/Stars';
 import AddToCart from '../components/AddToCart';
 
@@ -18,9 +18,9 @@ const SingleProduct = () => {
     getSingleProduct,
     isSingleLoading,
     singleProduct,
-  } = useProductContext ();
+  } = useProductContext();
 
-  const {id} = useParams ();
+  const { id } = useParams();
 
   const {
     id: alias,
@@ -35,8 +35,8 @@ const SingleProduct = () => {
     image,
   } = singleProduct;
 
-  useEffect (() => {
-    getSingleProduct (`${API}?id=${id}`);
+  useEffect(() => {
+    getSingleProduct(`${API}?id=${id}`);
   }, []);
 
   if (isSingleLoading) {
@@ -156,7 +156,7 @@ const Wrapper = styled.section`
       font-weight: bold;
     }
     .product-data-real-price {
-      color: ${({theme}) => theme.colors.btn};
+      color: ${({ theme }) => theme.colors.btn};
     }
     .product-data-info {
       display: flex;
@@ -190,7 +190,7 @@ const Wrapper = styled.section`
     justify-content: center;
     align-items: center;
   }
-  @media (max-width: ${({theme}) => theme.media.mobile}) {
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
     padding: 0 2.4rem;
   }
 `;
