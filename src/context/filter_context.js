@@ -11,7 +11,6 @@ const initialState = {
   sorting_value: "lowest",
   filters: {
     text: "",
-
   }
 };
 
@@ -39,8 +38,9 @@ export const FilterContextProvider = ({ children }) => {
   // to sort the products
 
   useEffect(() => {
+    dispatch({ type: "FILTER_PRODUCTS" })
     dispatch({ type: 'SORTING_PRODUCTS' });
-  }, [products, state.sorting_value])
+  }, [products, state.sorting_value, state.filters])
 
   //update filter serch values
 

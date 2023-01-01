@@ -112,12 +112,34 @@ const filterReducer = (state, action) => {
 
     case 'UPDATE_FILTERS_VALUE':
       const { name, value } = action.payload
+      console.log(name, value)
       return {
         ...state,
         filters: {
           ...state.filters,
           [name]: value,
         }
+      };
+
+    case 'FILTER_PRODUCTS':
+      let { all_products } = state
+      let tempFilterProduct = [...all_products]
+      console.log(tempFilterProduct)
+
+      const { text } = state.filters
+      try {
+        if (text) {
+          tempFilterProduct = tempFilterProduct.filter((cur, i) => {
+            return cur.name.toLowerCase().includes(text); //startsWith use this when you want to direct with start word filter
+          })
+        }
+      } catch (error) {
+        <p>No Data </p>
+      }
+
+      return {
+        ...state,
+        filter_products: tempFilterProduct,
       };
 
     default:
