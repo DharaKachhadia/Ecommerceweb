@@ -25,14 +25,19 @@ export const FilterContextProvider = ({ children }) => {
   };
 
   //sorting function
+  //for get the event which option click by the user
 
-  const sorting = () => {
-    return dispatch({ type: "GET_SORT_VALUE" })
+  const sorting = (event) => {
+    let userValue = event.target.value;
+    return dispatch({ type: "GET_SORT_VALUE", payload: userValue })
   }
 
+  // to sort the products
+
   useEffect(() => {
-    console.log("helllooo")
-  }, [state.sorting_value])
+    dispatch({ type: 'SORTING_PRODUCTS' });
+  }, [products, state.sorting_value])
+
 
   useEffect(
     () => {

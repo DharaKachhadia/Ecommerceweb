@@ -20,13 +20,93 @@ const filterReducer = (state, action) => {
       };
 
     case 'GET_SORT_VALUE':
-      let userSortValue = document.getElementById('sort');
-      let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
-      console.log("______________sort__________", sort_value)
+
+      // this two line we write for get the user click which option from dropdown  you can also use second way 
+
+      // let userSortValue = document.getElementById('sort');
+      // let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
+      // console.log("______________sort__________", sort_value)
+
+      //---------------we get value from event and in payload we pass userValue------------//
+
       return {
         ...state,
-        sorting_value: sort_value,
+        sorting_value: action.payload,
 
+      };
+
+    case 'SORTING_PRODUCTS':
+
+      let newSortData;
+      // let tempSortProduct = [...action.payload];
+
+      //here we repeat same logic same code so we need to do "DON'T REPEAT OUR SELF IN CODE"
+
+
+      // if (state.sorting_value === "lowest") {
+      //   const sortingProducts = (a, b) => {
+      //     return a.price - b.price
+      //   }
+      //   newSortData = tempSortProduct.sort(sortingProducts)
+      // }
+      // if (state.sorting_value === "highest") {
+      //   const sortingProducts = (a, b) => {
+      //     return b.price - a.price
+      //   }
+      //   newSortData = tempSortProduct.sort(sortingProducts)
+      // }
+
+      // if (state.sorting_value === "a-z") {
+      //   newSortData = tempSortProduct.sort((a, b) =>
+      //     a.name.localeCompare(b.name)
+      //   )
+      // }
+      // if (state.sorting_value === "z-a") {
+      //   newSortData = tempSortProduct.sort((a, b) =>
+      //     b.name.localeCompare(a.name)
+      //   )
+      // }
+
+      //----------------second way to use in some line of code------------------//
+      const { filter_products, sorting_value } = state
+      let tempSortProduct = [...filter_products];
+
+      const sortingProducts = (a, b) => {
+
+        //==========second sort way============
+        // if (sorting_value === "lowest") {
+        //   return a.price - b.price
+        // }
+        // if (sorting_value === "highest") {
+        //   return b.price - a.price
+        // }
+        // if (sorting_value === "a-z") {
+        //   return a.name.localeCompare(b.name)
+        // }
+        // if (sorting_value === "z-a") {
+        //   return b.name.localeCompare(a.name)
+        // }
+        //}
+
+        //you can use third easy way 
+        switch (sorting_value) {
+          case 'lowest':
+            return a.price - b.price
+          case 'highest':
+            return b.price - a.price
+          case 'a-z':
+            return a.name.localeCompare(b.name)
+          case 'z-a':
+            return b.name.localeCompare(a.name)
+          default:
+            return;
+        }
+      }
+      newSortData = tempSortProduct.sort(sortingProducts)
+
+      return {
+        ...state,
+        filter_products: newSortData,
       };
     default:
       return state;
