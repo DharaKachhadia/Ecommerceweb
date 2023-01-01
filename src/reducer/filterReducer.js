@@ -126,15 +126,23 @@ const filterReducer = (state, action) => {
       let tempFilterProduct = [...all_products]
       console.log(tempFilterProduct)
 
-      const { text } = state.filters
-      try {
-        if (text) {
-          tempFilterProduct = tempFilterProduct.filter((cur, i) => {
-            return cur.name.toLowerCase().includes(text); //startsWith use this when you want to direct with start word filter
-          })
-        }
-      } catch (error) {
-        <p>No Data </p>
+      const { text, category, company } = state.filters
+
+      if (text) {
+        tempFilterProduct = tempFilterProduct.filter((cur, i) => {
+          return cur.name.toLowerCase().includes(text); //startsWith use this when you want to direct with start word filter
+        })
+      }
+      if (category !== "All") {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.category === category
+        );
+      }
+
+      if (company !== "All") {
+        tempFilterProduct = tempFilterProduct.filter(
+          (curElem) => curElem.company.toLowerCase() === company.toLowerCase()
+        );
       }
 
       return {

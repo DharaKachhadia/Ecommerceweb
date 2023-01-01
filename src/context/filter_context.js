@@ -11,7 +11,10 @@ const initialState = {
   sorting_value: "lowest",
   filters: {
     text: "",
-  }
+    category: "all",
+    company: "all"
+  },
+
 };
 
 export const FilterContextProvider = ({ children }) => {
