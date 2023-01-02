@@ -1,28 +1,43 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useFilterContext } from '../context/filter_context';
+import {useFilterContext} from '../context/filter_context';
+import {FaCheck} from 'react-icons/fa';
+import FormatPrice from '../Helpers/FormatPrice';
+import {Button} from '../styles/Button';
 
 const FilterSection = () => {
-  const { filters: { text, category }, updateFilterValue, all_products,
-  } = useFilterContext()
-
+  const {
+    filters: {text, category, color, price, minPrice, maxPrice},
+    updateFilterValue,
+    clearFilters,
+    all_products,
+  } = useFilterContext ();
   //get unique data of each fields
   const getUniqueData = (data, property) => {
-    let newVal = data.map((cur) => {
+    let newVal = data.map (cur => {
       return cur[property];
-    })
-    console.log("=====================", newVal)
-    return newVal = ["All", ...new Set(newVal)]
-  }
+    });
+
+    if (property === 'colors') {
+      // return (newVal = ['all', ...new Set ([].concat (...newVal))]);
+      // return (newVal = ['all', ...new Set (newVal.flat ())]);
+      newVal = newVal.flat ();
+    }
+
+    return (newVal = ['all', ...new Set (newVal)]);
+  };
 
   //we need to unique data
-  const categoryData = getUniqueData(all_products, "category");
-  const companyData = getUniqueData(all_products, "company");
-
+  const categoryData = getUniqueData (all_products, 'category');
+  const companyData = getUniqueData (all_products, 'company');
+  const colorsData = getUniqueData (all_products, 'colors');
+  console.log (categoryData);
+  console.log (companyData);
+  console.log (colorsData);
   return (
     <Wrapper>
       <div className="filter-search">
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={e => e.preventDefault ()}>
           <input
             type="text"
             name="text"
@@ -35,15 +50,16 @@ const FilterSection = () => {
       <div className="filter-category">
         <h3>Category</h3>
         <div>
-          {categoryData.map((curElem, index) => {
+          {categoryData.map ((curElem, index) => {
             return (
               <button
                 key={index}
                 type="button"
                 name="category"
                 value={curElem}
-                className={curElem === category ? "active" : ""}
-                onClick={updateFilterValue}>
+                className={curElem === category ? 'active' : ''}
+                onClick={updateFilterValue}
+              >
                 {curElem}
               </button>
             );
@@ -59,8 +75,9 @@ const FilterSection = () => {
             name="company"
             id="company"
             className="filter-company--select"
-            onClick={updateFilterValue}>
-            {companyData.map((curElem, index) => {
+            onClick={updateFilterValue}
+          >
+            {companyData.map ((curElem, index) => {
               return (
                 <option key={index} value={curElem} name="company">
                   {curElem}
@@ -69,6 +86,69 @@ const FilterSection = () => {
             })}
           </select>
         </form>
+      </div>
+
+      <div className="filter-colors colors">
+        <h3>Colors</h3>
+
+        <div className="filter-color-style">
+          {colorsData.map ((curColor, index) => {
+            console.log (curColor);
+            console.log (color);
+            if (curColor === 'all') {
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  value={curColor}
+                  name="color"
+                  className="color-all--style"
+                  onClick={updateFilterValue}
+                >
+                  all
+                  {/* {curColor} */}
+                  {color === curColor ? '' : null}
+                </button>
+              );
+            }
+            return (
+              <button
+                key={index}
+                type="button"
+                value={curColor}
+                name="color"
+                className={color === curColor ? 'btnStyle active' : 'btnStyle'}
+                style={{backgroundColor: curColor}}
+                onClick={updateFilterValue}
+              >
+                {/* {curColor} */}
+                {color === curColor ? <FaCheck className="checkStyle" /> : null}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="filter_price">
+          <h3>Price</h3>
+          <p>
+            <FormatPrice price={price} />
+          </p>
+          <input
+            type="range"
+            name="price"
+            min={minPrice}
+            max={maxPrice}
+            value={price}
+            onChange={updateFilterValue}
+          />
+        </div>
+
+        <div className="filter-clear">
+          <Button className="btn" onClick={clearFilters}>
+            Clear Filters
+          </Button>
+        </div>
+
       </div>
     </Wrapper>
   );
@@ -97,23 +177,23 @@ const Wrapper = styled.section`
       gap: 1.4rem;
       button {
         border: none;
-        background-color: ${({ theme }) => theme.colors.white};
+        background-color: ${({theme}) => theme.colors.white};
         text-transform: capitalize;
         cursor: pointer;
         &:hover {
-          color: ${({ theme }) => theme.colors.btn};
+          color: ${({theme}) => theme.colors.btn};
         }
       }
       .active {
         border-bottom: 1px solid #000;
-        color: ${({ theme }) => theme.colors.btn};
+        color: ${({theme}) => theme.colors.btn};
       }
     }
   }
   .filter-company--select {
     padding: 0.3rem 1.2rem;
     font-size: 1.6rem;
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({theme}) => theme.colors.text};
     text-transform: capitalize;
   }
   .filter-color-style {
@@ -136,6 +216,9 @@ const Wrapper = styled.section`
     outline: none;
     opacity: 0.5;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover {
       opacity: 1;
     }
