@@ -49,8 +49,10 @@ const CartProvider = ({ children }) => {
 
   useEffect(
     () => {
-      dispatch({ type: "CART_ITEM_TOTAL" })
-      dispatch({ type: "CART_TOTAL_PRICE" })
+      //this is two for basic understand you can sort the code using 3rd
+      // dispatch({ type: "CART_ITEM_TOTAL" })
+      // dispatch({ type: "CART_TOTAL_PRICE" })
+      dispatch({ type: "CART_TOTAL_PRICE_ITEM" })
       localStorage.setItem('dharaCard', JSON.stringify(state.cart));
     },
     [state.cart]
