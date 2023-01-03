@@ -1,25 +1,25 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
-import { FaCheck } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
-import { Button } from '../styles/Button';
+import {FaCheck} from 'react-icons/fa';
+import {NavLink} from 'react-router-dom';
+import {Button} from '../styles/Button';
 import CartAmountToggle from './CartAmountToggle';
-import { useCartContext } from '../context/cart_context';
+import {useCartContext} from '../context/cart_context';
 
-const AddToCart = ({ product }) => {
-  const { addToCart } = useCartContext();
-  console.log("?????????????????????????????????????", addToCart)
-  const { id, colors, stock } = product;
+const AddToCart = ({product}) => {
+  const {addToCart} = useCartContext ();
+  console.log ('?????????????????????????????????????', addToCart);
+  const {id, colors, stock} = product;
 
-  const [color, setColor] = useState(colors[0]);
-  const [amount, setAmount] = useState(1);
+  const [color, setColor] = useState (colors[0]);
+  const [amount, setAmount] = useState (1);
 
   const setDecrease = () => {
-    amount > 1 ? setAmount(amount - 1) : setAmount(1);
+    amount > 1 ? setAmount (amount - 1) : setAmount (1);
   };
 
   const setIncrease = () => {
-    amount < stock ? setAmount(amount + 1) : setAmount(stock);
+    amount < stock ? setAmount (amount + 1) : setAmount (stock);
   };
 
   return (
@@ -27,13 +27,13 @@ const AddToCart = ({ product }) => {
       <div className="colors">
         <p>
           Color:
-          {colors.map((curColor, index) => {
+          {colors.map ((curColor, index) => {
             return (
               <button
                 key={index}
-                style={{ backgroundColor: curColor }}
+                style={{backgroundColor: curColor}}
                 className={color === curColor ? 'btnStyle active' : 'btnStyle'}
-                onClick={() => setColor(curColor)}
+                onClick={() => setColor (curColor)}
               >
                 {color === curColor ? <FaCheck className="checkStyle" /> : null}
               </button>
@@ -51,7 +51,7 @@ const AddToCart = ({ product }) => {
 
       <NavLink
         to="/cart"
-        onClick={() => addToCart(id, color, amount, product)}
+        onClick={() => addToCart (id, color, amount, product)}
       >
         <Button className="btn">Add To Cart</Button>
       </NavLink>
@@ -111,7 +111,7 @@ const Wrapper = styled.section`
 
     .amount-style {
       font-size: 2.4rem;
-      color: ${({ theme }) => theme.colors.btn};
+      color: ${({theme}) => theme.colors.btn};
     }
   }
 `;

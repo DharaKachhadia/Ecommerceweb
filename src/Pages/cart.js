@@ -1,28 +1,30 @@
-import styled from "styled-components";
-import CartItem from "../components/CartItem"
-import { useCartContext } from "../context/cart_context";
+import styled from 'styled-components';
+import CartItem from '../components/CartItem';
+import {useCartContext} from '../context/cart_context';
 
 const Cart = () => {
-  const { cart } = useCartContext();
-  console.log("🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart", cart);
-  return <Wrapper>
-    <div className="container">
-      <div className="cart_heading grid grid-five-column">
-        <p>Item</p>
-        <p className="cart-hide">Price</p>
-        <p>Quantity</p>
-        <p className="cart-hide">Subtotal</p>
-        <p>Remove</p>
-      </div>
-      <hr />
+  const {cart} = useCartContext (); //you can get update any state from this
+  console.log ('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
+  return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <p>Item</p>
+          <p className="cart-hide">Price</p>
+          <p>Quantity</p>
+          <p className="cart-hide">Subtotal</p>
+          <p>Remove</p>
+        </div>
+        <hr />
 
-      <div className="cart-item">
-        {cart.map((curElem) => {
-          return <CartItem key={curElem.id} {...curElem} />;
-        })}
+        <div className="cart-item">
+          {cart.map (curElem => {
+            return <CartItem key={curElem.id} {...curElem} />;
+          })}
+        </div>
       </div>
-    </div>
-  </Wrapper>;
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`
@@ -113,7 +115,7 @@ const Wrapper = styled.section`
     }
     .amount-style {
       font-size: 2.4rem;
-      color: ${({ theme }) => theme.colors.btn};
+      color: ${({theme}) => theme.colors.btn};
     }
   }
   .remove_icon {
@@ -146,10 +148,10 @@ const Wrapper = styled.section`
     }
     div p:last-child {
       font-weight: bold;
-      color: ${({ theme }) => theme.colors.heading};
+      color: ${({theme}) => theme.colors.heading};
     }
   }
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+  @media (max-width: ${({theme}) => theme.media.mobile}) {
     .grid-five-column {
       grid-template-columns: 1.5fr 1fr 0.5fr;
     }
