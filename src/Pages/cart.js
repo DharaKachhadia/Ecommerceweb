@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 import CartItem from '../components/CartItem';
-import {useCartContext} from '../context/cart_context';
-import {NavLink} from 'react-router-dom';
-import {Button} from '../styles/Button';
+import { useCartContext } from '../context/cart_context';
+import { NavLink } from 'react-router-dom';
+import { Button } from '../styles/Button';
 import EmptyCard from '../components/EmptyCard';
+import FormatPrice from '../Helpers/FormatPrice';
 const Cart = () => {
   const {
     cart,
-    total_item,
-    total_amount,
+    total_price,
     shipping_fee,
     clearCart,
-  } = useCartContext (); //you can get update any state from this
-  console.log ('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
+  } = useCartContext(); //you can get update any state from this
+  console.log('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
 
   if (cart.length === 0) {
     return <EmptyCard />;
@@ -29,7 +29,7 @@ const Cart = () => {
         </div>
         <hr />
         <div className="cart-item">
-          {cart.map (curElem => {
+          {cart.map(curElem => {
             return <CartItem key={curElem.id} {...curElem} />;
           })}
         </div>
@@ -41,6 +41,33 @@ const Cart = () => {
           <Button className="btn btn-clear" onClick={clearCart}>
             clear cart
           </Button>
+        </div>
+
+
+        {/* order total_amount */}
+
+        <div className="order-total--amount">
+          <div className="order-total--subdata">
+            <div>
+              <p>subtotal:</p>
+              <p>
+                <FormatPrice price={total_price} />
+              </p>
+            </div>
+            <div>
+              <p>shipping fee:</p>
+              <p>
+                <FormatPrice price={shipping_fee} />
+              </p>
+            </div>
+            <hr />
+            <div>
+              <p>order total:</p>
+              <p>
+                <FormatPrice price={shipping_fee + total_price} />
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </Wrapper>
@@ -136,7 +163,7 @@ const Wrapper = styled.section`
     }
     .amount-style {
       font-size: 2.4rem;
-      color: ${({theme}) => theme.colors.btn};
+      color: ${({ theme }) => theme.colors.btn};
     }
   }
   .remove_icon {
@@ -169,10 +196,10 @@ const Wrapper = styled.section`
     }
     div p:last-child {
       font-weight: bold;
-      color: ${({theme}) => theme.colors.heading};
+      color: ${({ theme }) => theme.colors.heading};
     }
   }
-  @media (max-width: ${({theme}) => theme.media.mobile}) {
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
     .grid-five-column {
       grid-template-columns: 1.5fr 1fr 0.5fr;
     }

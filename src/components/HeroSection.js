@@ -16,13 +16,13 @@ const HeroSection = ({ myData }) => {
               atque temporibus veniam doloribus libero ad error omnis
               voluptatess animi! Suscipit sapiente.
             </p>
-            <NavLink>
+            <NavLink to='/product'>
               <Button>show now</Button>
             </NavLink>
           </div>
           {/* our homepage image  */}
-          <div 
-          className="hero-section-image">
+          <div
+            className="hero-section-image">
             <figure>
               <img
                 src="https://www.pennmedicine.org/-/media/images/miscellaneous/families/family_grocery_shopping.ashx"
