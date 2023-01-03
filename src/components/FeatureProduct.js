@@ -80,6 +80,8 @@ const Wrapper = styled.section`
   .card {
     background-color: #fff;
     border-radius: 1rem;
+    border:0;
+
     .card-data {
       padding: 0 2rem;
     }

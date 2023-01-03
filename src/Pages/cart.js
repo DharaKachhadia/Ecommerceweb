@@ -1,10 +1,22 @@
 import styled from 'styled-components';
 import CartItem from '../components/CartItem';
 import {useCartContext} from '../context/cart_context';
-
+import {NavLink} from 'react-router-dom';
+import {Button} from '../styles/Button';
+import EmptyCard from '../components/EmptyCard';
 const Cart = () => {
-  const {cart} = useCartContext (); //you can get update any state from this
+  const {
+    cart,
+    total_item,
+    total_amount,
+    shipping_fee,
+    clearCart,
+  } = useCartContext (); //you can get update any state from this
   console.log ('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
+
+  if (cart.length === 0) {
+    return <EmptyCard />;
+  }
   return (
     <Wrapper>
       <div className="container">
@@ -16,11 +28,19 @@ const Cart = () => {
           <p>Remove</p>
         </div>
         <hr />
-
         <div className="cart-item">
           {cart.map (curElem => {
             return <CartItem key={curElem.id} {...curElem} />;
           })}
+        </div>
+
+        <div className="cart-two-button">
+          <NavLink to="/product">
+            <Button> continue Shopping </Button>
+          </NavLink>
+          <Button className="btn btn-clear" onClick={clearCart}>
+            clear cart
+          </Button>
         </div>
       </div>
     </Wrapper>
@@ -100,6 +120,7 @@ const Wrapper = styled.section`
     justify-content: space-between;
     .btn-clear {
       background-color: #e74c3c;
+      font-size: 1.65rem;
     }
   }
   .amount-toggle {
