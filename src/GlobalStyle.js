@@ -147,8 +147,6 @@ input, textarea{
     padding: 1.6rem 2.4rem;
     border: 1px solid ${({theme}) => theme.colors.border};
     text-transform: uppercase;
-    font-size:15px;
-    font-weight: 700;
    box-shadow: ${({theme}) => theme.colors.shadowSupport};
 }
     input[type="submit"]{

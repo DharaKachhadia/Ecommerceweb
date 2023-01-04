@@ -1,24 +1,31 @@
-import React from "react";
-import styled from "styled-components";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-import { useFilterContext } from "../context/filter_context";
+import React from 'react';
+import styled from 'styled-components';
+import {BsFillGridFill, BsList} from 'react-icons/bs';
+import {useFilterContext} from '../context/filter_context';
 
 const Sort = () => {
-  const { filter_products, grid_view, setGridView, setListView, sorting } =
-    useFilterContext();
+  const {
+    filter_products,
+    grid_view,
+    setGridView,
+    setListView,
+    sorting,
+  } = useFilterContext ();
   return (
     <Wrapper className="sort-section">
       {/* 1st column  */}
       <div className="sorting-list--grid">
         <button
-          className={grid_view ? "active sort-btn" : "sort-btn"}
-          onClick={setGridView}>
+          className={grid_view ? 'active sort-btn' : 'sort-btn'}
+          onClick={setGridView}
+        >
           <BsFillGridFill className="icon" />
         </button>
 
         <button
-          className={!grid_view ? "active sort-btn" : "sort-btn"}
-          onClick={setListView}>
+          className={!grid_view ? 'active sort-btn' : 'sort-btn'}
+          onClick={setListView}
+        >
           <BsList className="icon" />
         </button>
       </div>
@@ -30,18 +37,19 @@ const Sort = () => {
       {/* 3rd column  */}
       <div className="sort-selection">
         <form action="#">
-          <label htmlFor="sort"></label>
+          <label htmlFor="sort" />
           <select
             name="sort"
             id="sort"
             className="sort-selection--style"
-            onClick={sorting}>
+            onClick={sorting}
+          >
             <option value="lowest">Price(lowest)</option>
-            <option value="#" disabled></option>
+            <option value="#" disabled />
             <option value="highest">Price(highest)</option>
-            <option value="#" disabled></option>
+            <option value="#" disabled />
             <option value="a-z">Product(a-z)</option>
-            <option value="#" disabled></option>
+            <option value="#" disabled />
             <option value="z-a">Product(z-a)</option>
           </select>
         </form>
@@ -69,13 +77,14 @@ const Wrapper = styled.section`
       font-size: 1.6rem;
     }
     .active {
-      background-color: ${({ theme }) => theme.colors.black};
+      background-color: ${({theme}) => theme.colors.black};
       color: #fff;
     }
   }
   .sort-selection .sort-selection--style {
-    padding: 0.5rem;
+    padding: 0.7rem;
     cursor: pointer;
+    font-size: 14px;
     .sort-select--option {
       padding: 0.5rem 0;
       cursor: pointer;

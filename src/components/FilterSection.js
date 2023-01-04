@@ -167,6 +167,7 @@ const Wrapper = styled.section`
     input {
       padding: 0.6rem 1rem;
       width: 80%;
+      font-size: 14px;
     }
   }
   .filter-category {
