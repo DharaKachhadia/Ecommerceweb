@@ -11,7 +11,6 @@ const getLocalCartData = () => {
   }
 };
 const initialState = {
-  cart: [],
   cart: getLocalCartData (),
   total_item: '',
   total_price: '',
