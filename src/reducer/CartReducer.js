@@ -126,7 +126,7 @@ const cartReducer = (state, action) => {
         ...state,
         total_price: total_price_f,
       };
-    case 'CART_TOTAL_PRICE_ITEM':
+
       let {total_item, total_price} = state.cart.reduce (
         (ini, cur) => {
           let {price, amount} = cur;
