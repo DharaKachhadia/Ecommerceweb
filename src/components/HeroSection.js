@@ -1,9 +1,9 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { Button } from "../styles/Button";
-const HeroSection = ({ myData }) => {
-  const { name } = myData;
+import React from 'react';
+import {NavLink} from 'react-router-dom';
+import styled from 'styled-components';
+import {Button} from '../styles/Button';
+const HeroSection = ({myData}) => {
+  const {name} = myData;
   return (
     <Wrapper>
       <div className="container">
@@ -16,15 +16,16 @@ const HeroSection = ({ myData }) => {
               atque temporibus veniam doloribus libero ad error omnis
               voluptatess animi! Suscipit sapiente.
             </p>
-            <NavLink to='/product'>
+            <NavLink to="/product">
               <Button>show now</Button>
             </NavLink>
           </div>
           {/* our homepage image  */}
-          <div
-            className="hero-section-image">
+          <div className="hero-section-image">
             <figure>
-              <img
+              <input
+                type="image"
+                img
                 src="https://www.pennmedicine.org/-/media/images/miscellaneous/families/family_grocery_shopping.ashx"
                 alt="hero-section-photo"
                 className="img-style"
@@ -77,8 +78,11 @@ const Wrapper = styled.section`
   .img-style {
     width: 100%;
     height: auto;
+    border:0;
+    box-shadow: unset;
+
   }
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+  @media (max-width: ${({theme}) => theme.media.mobile}) {
     .grid {
       gap: 10rem;
     }

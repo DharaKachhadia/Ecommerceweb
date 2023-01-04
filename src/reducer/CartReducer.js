@@ -1,166 +1,321 @@
 const cartReducer = (state, action) => {
-  if (action.type === 'ADD_TO_CART') {
-    let { id, color, amount, product } = action.payload;
-    console.log(
-      '🚀 ~ file: cartReducer.js ~ line 4 ~ cartReducer ~ product',
-      id,
-      color,
-      amount,
-      product
-    );
+  switch (action.type) {
+    case 'ADD_TO_CART':
+      let {id, color, amount, product} = action.payload;
+      console.log (
+        '🚀 ~ file: cartReducer.js ~ line 4 ~ cartReducer ~ product',
+        id,
+        color,
+        amount,
+        product
+      );
 
-    // tackle the exiting with new data this is existingProduct
+      // tackle the exiting with new data this is existingProduct
 
-    let existingProduct = state.cart.find(cur => cur.id == id + color);
-    console.log(
-      '🚀 ~ file: cartReducer.js ~ line 4 ~ existingProduct ``````````````````````````````````````````````~ ',
-      existingProduct
-    );
+      let existingProduct = state.cart.find (cur => cur.id === id + color);
+      console.log (
+        '🚀 ~ file: cartReducer.js ~ line 4 ~ existingProduct ``````````````````````````````````````````````~ ',
+        existingProduct
+      );
 
-    // if existingProduct then
-    if (existingProduct) {
-      let updatedProduct = state.cart.map(cur => {
-        if (cur.id == id + color) {
-          let newAmount = cur.amount + amount;
+      // if existingProduct then
+      if (existingProduct) {
+        let updatedProduct = state.cart.map (cur => {
+          if (cur.id === id + color) {
+            let newAmount = cur.amount + amount;
 
-          if (newAmount >= cur.max) {
-            newAmount = cur.max;
+            if (newAmount >= cur.max) {
+              newAmount = cur.max;
+            }
+            return {
+              ...cur,
+              amount: newAmount,
+            };
+          } else {
+            return cur;
           }
+        });
+        return {
+          ...state,
+          cart: updatedProduct,
+        };
+      } else {
+        let cartProduct = {
+          id: id + color,
+          name: product.name,
+          color,
+          amount, //object and key is same then you can write only the one time
+          image: product.image[0].url,
+          price: product.price,
+          max: product.stock,
+        };
+        return {
+          ...state,
+          cart: [...state.cart, cartProduct],
+        };
+      }
+    case 'REMOVE_ITEM':
+      let updatedCart = state.cart.filter (cur => cur.id !== action.payload);
+
+      return {
+        ...state,
+        cart: updatedCart,
+      };
+    case 'CLEAR_CART':
+      return {
+        ...state,
+        cart: [],
+      };
+    case 'SET_DECREMENT':
+      let updatedProductDEC = state.cart.map (curElem => {
+        if (curElem.id === action.payload) {
+          let decAmount = curElem.amount - 1;
+
+          if (decAmount <= 1) {
+            decAmount = 1;
+          }
+
           return {
-            ...cur,
-            amount: newAmount,
+            ...curElem,
+            amount: decAmount,
           };
         } else {
-          return cur;
+          return curElem;
         }
       });
+      return {...state, cart: updatedProductDEC};
+    case 'SET_INCREMENT':
+      let updatedProduct = state.cart.map (curElem => {
+        if (curElem.id === action.payload) {
+          let incAmount = curElem.amount + 1;
+
+          if (incAmount >= curElem.max) {
+            incAmount = curElem.max;
+          }
+
+          return {
+            ...curElem,
+            amount: incAmount,
+          };
+        } else {
+          return curElem;
+        }
+      });
+      return {...state, cart: updatedProduct};
+    case 'CART_ITEM_TOTAL':
+      let updatedItem = state.cart.reduce ((ini, cur) => {
+        let {amount} = cur;
+
+        ini = ini + amount;
+        return ini;
+      }, 0);
+
       return {
         ...state,
-        cart: updatedProduct,
+        total_item: updatedItem,
       };
-    } else {
-      let cartProduct = {
-        id: id + color,
-        name: product.name,
-        color,
-        amount, //object and key is same then you can write only the one time
-        image: product.image[0].url,
-        price: product.price,
-        max: product.stock,
-      };
+    case 'CART_TOTAL_PRICE':
+      let total_price_f = state.cart.reduce ((ini, cur) => {
+        let {price, amount} = cur;
+
+        ini = ini + price * amount;
+        return ini;
+      }, 0);
+
       return {
         ...state,
-        cart: [...state.cart, cartProduct],
+        total_price: total_price_f,
       };
-    }
-  }
-  if (action.type === 'REMOVE_ITEM') {
-    let updatedCart = state.cart.filter(cur => cur.id !== action.payload);
+    case 'CART_TOTAL_PRICE_ITEM':
+      let {total_item, total_price} = state.cart.reduce (
+        (ini, cur) => {
+          let {price, amount} = cur;
 
-    return {
-      ...state,
-      cart: updatedCart,
-    };
-  }
+          ini.total_item += amount;
+          ini.total_price += price * amount;
 
-  // to empty or to clear to cart
-  if (action.type === 'CLEAR_CART') {
-    return {
-      ...state,
-      cart: [],
-    };
-  }
-
-  // to set the increment and decrement
-  if (action.type === "SET_DECREMENT") {
-    let updatedProduct = state.cart.map((curElem) => {
-      if (curElem.id === action.payload) {
-        let decAmount = curElem.amount - 1;
-
-        if (decAmount <= 1) {
-          decAmount = 1;
+          return ini;
+        },
+        {
+          total_item: 0,
+          total_price: 0,
         }
-
-        return {
-          ...curElem,
-          amount: decAmount,
-        };
-      } else {
-        return curElem;
-      }
-    });
-    return { ...state, cart: updatedProduct };
+      );
+      return {
+        ...state,
+        total_item,
+        total_price,
+      };
+    default:
+      return state;
   }
-
-  if (action.type === "SET_INCREMENT") {
-    let updatedProduct = state.cart.map((curElem) => {
-      if (curElem.id === action.payload) {
-        let incAmount = curElem.amount + 1;
-
-        if (incAmount >= curElem.max) {
-          incAmount = curElem.max;
-        }
-
-        return {
-          ...curElem,
-          amount: incAmount,
-        };
-      } else {
-        return curElem;
-      }
-    });
-    return { ...state, cart: updatedProduct };
-  }
-
-
-  if (action.type === "CART_ITEM_TOTAL") {
-    let updatedItem = state.cart.reduce((ini, cur) => {
-      let { amount } = cur;
-
-      ini = ini + amount;
-      return ini;
-    }, 0)
-
-    return {
-      ...state,
-      total_item: updatedItem
-    };
-  }
-
-  if (action.type === "CART_TOTAL_PRICE") {
-    let total_price = state.cart.reduce((ini, cur) => {
-      let { price, amount } = cur;
-
-      ini = ini + price * amount;
-      return ini;
-    }, 0)
-
-    return {
-      ...state,
-      total_price
-    };
-  }
-
-  if (action.type === "CART_TOTAL_PRICE_ITEM") {
-    let { total_item, total_price } = state.cart.reduce((ini, cur) => {
-      let { price, amount } = cur
-
-      ini.total_item += amount;
-      ini.total_price += price * amount;
-
-      return ini;
-
-    }, {
-      total_item: 0,
-      total_price: 0
-    })
-    return {
-      ...state,
-      total_item,
-      total_price
-    };
-  }
-
-  return state;
 };
 export default cartReducer;
+
+// --------------------------------------you can use as if statement --------------------------------
+
+// const cartReducer = (state, action) => {
+//   if (action.type === 'ADD_TO_CART') {
+//     let { id, color, amount, product } = action.payload;
+//     console.log(
+//       '🚀 ~ file: cartReducer.js ~ line 4 ~ cartReducer ~ product',
+//       id,
+//       color,
+//       amount,
+//       product
+//     );
+
+//     // tackle the exiting with new data this is existingProduct
+
+//     let existingProduct = state.cart.find(cur => cur.id == id + color);
+//     console.log(
+//       '🚀 ~ file: cartReducer.js ~ line 4 ~ existingProduct ``````````````````````````````````````````````~ ',
+//       existingProduct
+//     );
+
+//     // if existingProduct then
+//     if (existingProduct) {
+//       let updatedProduct = state.cart.map(cur => {
+//         if (cur.id == id + color) {
+//           let newAmount = cur.amount + amount;
+
+//           if (newAmount >= cur.max) {
+//             newAmount = cur.max;
+//           }
+//           return {
+//             ...cur,
+//             amount: newAmount,
+//           };
+//         } else {
+//           return cur;
+//         }
+//       });
+//       return {
+//         ...state,
+//         cart: updatedProduct,
+//       };
+//     } else {
+//       let cartProduct = {
+//         id: id + color,
+//         name: product.name,
+//         color,
+//         amount, //object and key is same then you can write only the one time
+//         image: product.image[0].url,
+//         price: product.price,
+//         max: product.stock,
+//       };
+//       return {
+//         ...state,
+//         cart: [...state.cart, cartProduct],
+//       };
+//     }
+//   }
+//   if (action.type === 'REMOVE_ITEM') {
+//     let updatedCart = state.cart.filter(cur => cur.id !== action.payload);
+
+//     return {
+//       ...state,
+//       cart: updatedCart,
+//     };
+//   }
+
+//   // to empty or to clear to cart
+//   if (action.type === 'CLEAR_CART') {
+//     return {
+//       ...state,
+//       cart: [],
+//     };
+//   }
+
+//   // to set the increment and decrement
+//   if (action.type === "SET_DECREMENT") {
+//     let updatedProduct = state.cart.map((curElem) => {
+//       if (curElem.id === action.payload) {
+//         let decAmount = curElem.amount - 1;
+
+//         if (decAmount <= 1) {
+//           decAmount = 1;
+//         }
+
+//         return {
+//           ...curElem,
+//           amount: decAmount,
+//         };
+//       } else {
+//         return curElem;
+//       }
+//     });
+//     return { ...state, cart: updatedProduct };
+//   }
+
+//   if (action.type === "SET_INCREMENT") {
+//     let updatedProduct = state.cart.map((curElem) => {
+//       if (curElem.id === action.payload) {
+//         let incAmount = curElem.amount + 1;
+
+//         if (incAmount >= curElem.max) {
+//           incAmount = curElem.max;
+//         }
+
+//         return {
+//           ...curElem,
+//           amount: incAmount,
+//         };
+//       } else {
+//         return curElem;
+//       }
+//     });
+//     return { ...state, cart: updatedProduct };
+//   }
+
+//   if (action.type === "CART_ITEM_TOTAL") {
+//     let updatedItem = state.cart.reduce((ini, cur) => {
+//       let { amount } = cur;
+
+//       ini = ini + amount;
+//       return ini;
+//     }, 0)
+
+//     return {
+//       ...state,
+//       total_item: updatedItem
+//     };
+//   }
+
+//   if (action.type === "CART_TOTAL_PRICE") {
+//     let total_price = state.cart.reduce((ini, cur) => {
+//       let { price, amount } = cur;
+
+//       ini = ini + price * amount;
+//       return ini;
+//     }, 0)
+
+//     return {
+//       ...state,
+//       total_price
+//     };
+//   }
+
+//   if (action.type === "CART_TOTAL_PRICE_ITEM") {
+//     let { total_item, total_price } = state.cart.reduce((ini, cur) => {
+//       let { price, amount } = cur
+
+//       ini.total_item += amount;
+//       ini.total_price += price * amount;
+
+//       return ini;
+
+//     }, {
+//       total_item: 0,
+//       total_price: 0
+//     })
+//     return {
+//       ...state,
+//       total_item,
+//       total_price
+//     };
+//   }
+
+//   return state;
+// };
+// export default cartReducer;

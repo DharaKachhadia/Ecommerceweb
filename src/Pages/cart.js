@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import CartItem from '../components/CartItem';
-import { useCartContext } from '../context/cart_context';
-import { NavLink } from 'react-router-dom';
-import { Button } from '../styles/Button';
+import {useCartContext} from '../context/cart_context';
+import {NavLink} from 'react-router-dom';
+import {Button} from '../styles/Button';
 import EmptyCard from '../components/EmptyCard';
 import FormatPrice from '../Helpers/FormatPrice';
+import {useAuth0} from '@auth0/auth0-react';
+
 const Cart = () => {
-  const {
-    cart,
-    total_price,
-    shipping_fee,
-    clearCart,
-  } = useCartContext(); //you can get update any state from this
-  console.log('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
+  const {cart, total_price, shipping_fee, clearCart} = useCartContext (); //you can get update any state from this
+  console.log ('🚀 ~ file: Cart.js ~ line 6 ~ Cart ~ cart', cart);
+  const {user, isAuthenticated} = useAuth0 ();
 
   if (cart.length === 0) {
     return <EmptyCard />;
@@ -20,6 +18,12 @@ const Cart = () => {
   return (
     <Wrapper>
       <div className="container">
+
+        {isAuthenticated &&
+          <div className="cart-user--profile">
+            <img src={user.profile} alt={user.name} />
+            <h2 className="cart-user--name">{user.name}</h2>
+          </div>}
         <div className="cart_heading grid grid-five-column">
           <p>Item</p>
           <p className="cart-hide">Price</p>
@@ -29,7 +33,7 @@ const Cart = () => {
         </div>
         <hr />
         <div className="cart-item">
-          {cart.map(curElem => {
+          {cart.map (curElem => {
             return <CartItem key={curElem.id} {...curElem} />;
           })}
         </div>
@@ -42,7 +46,6 @@ const Cart = () => {
             clear cart
           </Button>
         </div>
-
 
         {/* order total_amount */}
 
@@ -163,7 +166,7 @@ const Wrapper = styled.section`
     }
     .amount-style {
       font-size: 2.4rem;
-      color: ${({ theme }) => theme.colors.btn};
+      color: ${({theme}) => theme.colors.btn};
     }
   }
   .remove_icon {
@@ -196,10 +199,10 @@ const Wrapper = styled.section`
     }
     div p:last-child {
       font-weight: bold;
-      color: ${({ theme }) => theme.colors.heading};
+      color: ${({theme}) => theme.colors.heading};
     }
   }
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+  @media (max-width: ${({theme}) => theme.media.mobile}) {
     .grid-five-column {
       grid-template-columns: 1.5fr 1fr 0.5fr;
     }

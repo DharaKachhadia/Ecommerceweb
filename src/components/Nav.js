@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {useState} from 'react';
+import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
-import { FiShoppingCart } from 'react-icons/fi';
-import { CgMenu, CgClose } from 'react-icons/cg';
-import { useCartContext } from '../context/cart_context';
-
+import {FiShoppingCart} from 'react-icons/fi';
+import {CgMenu, CgClose} from 'react-icons/cg';
+import {useCartContext} from '../context/cart_context';
+import {Button} from '../styles/Button';
+import {useAuth0} from '@auth0/auth0-react';
 const Nav = () => {
-  const { total_item } = useCartContext();
-  const [menuIcon, setMenuIcon] = useState();
-
+  const {total_item} = useCartContext ();
+  const [menuIcon, setMenuIcon] = useState ();
+  const {user, isAuthenticated, loginWithRedirect, logout} = useAuth0 ();
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
@@ -22,13 +23,13 @@ const Nav = () => {
           text-decoration: none;
           font-weight: 700;
           text-transform: uppercase;
-          color: ${({ theme }) => theme.colors.black};
+          color: ${({theme}) => theme.colors.black};
           transition: color 0.3s linear;
         }
 
         &:hover,
         &:active {
-          color: ${({ theme }) => theme.colors.helper};
+          color: ${({theme}) => theme.colors.helper};
         }
       }
     }
@@ -69,7 +70,7 @@ const Nav = () => {
         place-items: center;
         top: -20%;
         left: 70%;
-        background-color: ${({ theme }) => theme.colors.helper};
+        background-color: ${({theme}) => theme.colors.helper};
       }
     }
 
@@ -82,16 +83,21 @@ const Nav = () => {
       font-size: 1.4rem;
       padding: 0.8rem 1.4rem;
     }
+    .navbar-font{
+          font-size:1.5rem;
+          font-weight:bold;
 
-    @media (max-width: ${({ theme }) => theme.media.mobile}) {
+        }
+
+    @media (max-width: ${({theme}) => theme.media.mobile}) {
       .mobile-navbar-btn {
         display: inline-block;
         z-index: 9999;
-        border: ${({ theme }) => theme.colors.black};
+        border: ${({theme}) => theme.colors.black};
 
         .mobile-nav-icon {
           font-size: 4.2rem;
-          color: ${({ theme }) => theme.colors.black};
+          color: ${({theme}) => theme.colors.black};
         }
       }
 
@@ -101,7 +107,7 @@ const Nav = () => {
         position: absolute;
         top: 30%;
         right: 10%;
-        color: ${({ theme }) => theme.colors.black};
+        color: ${({theme}) => theme.colors.black};
         z-index: 9999;
       }
 
@@ -138,8 +144,10 @@ const Nav = () => {
         transition: all 3s linear;
 
         .navbar-link {
-          font-size: 4.2rem;
+          font-size: 4.2rem; 
+       
         }
+       
       }
       .cart-trolley--link {
         position: relative;
@@ -161,6 +169,8 @@ const Nav = () => {
         font-size: 2.2rem;
         padding: 0.8rem 1.4rem;
       }
+
+     
     }
   `;
 
@@ -172,7 +182,7 @@ const Nav = () => {
             <NavLink
               to="/"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}
+              onClick={() => setMenuIcon (false)}
             >
               Home
             </NavLink>
@@ -181,7 +191,7 @@ const Nav = () => {
             <NavLink
               to="/about"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}
+              onClick={() => setMenuIcon (false)}
             >
               About
             </NavLink>
@@ -190,7 +200,7 @@ const Nav = () => {
             <NavLink
               to="/product"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}
+              onClick={() => setMenuIcon (false)}
             >
               Products
             </NavLink>
@@ -199,11 +209,23 @@ const Nav = () => {
             <NavLink
               to="/contact"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}
+              onClick={() => setMenuIcon (false)}
             >
               Contact
             </NavLink>
+
           </li>
+          {isAuthenticated &&
+            <div>
+              <div className="navbar-font">{user.name}</div>
+              <div className="navbar-font">{user.email}</div>
+            </div>}
+
+          {isAuthenticated
+            ? <li><Button onClick={() => logout ()}>Log Out</Button></li>
+            : <li>
+                <Button onClick={() => loginWithRedirect ()}>Log In</Button>
+              </li>}
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />
@@ -217,12 +239,12 @@ const Nav = () => {
           <CgMenu
             name="menu-outline"
             className="mobile-nav-icon"
-            onClick={() => setMenuIcon(true)}
+            onClick={() => setMenuIcon (true)}
           />
           <CgClose
             name="close-outline"
             className="mobile-nav-icon close-outline"
-            onClick={() => setMenuIcon(false)}
+            onClick={() => setMenuIcon (false)}
           />
         </div>
       </div>
