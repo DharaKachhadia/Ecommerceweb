@@ -152,7 +152,7 @@ const cartReducer = (state, action) => {
 };
 export default cartReducer;
 
-// --------------------------------------you can use as if statement --------------------------------
+// you can use as if statement --------------------------------
 
 // const cartReducer = (state, action) => {
 //   if (action.type === 'ADD_TO_CART') {
